@@ -1,0 +1,53 @@
+@model FinancialProfile
+@{
+    ViewData["Title"] = "New profile"; ViewData["BackLink"] = true;
+}
+<div class="workspace-heading">
+    <h1>New profile</h1>
+</div>
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="row g-4 align-items-start">
+        <section class="col-lg-5">
+            <div class="working-surface details-form">
+                <h2>Profile details</h2>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="mb-4">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="form-control" placeholder="e.g. Alex Morgan" maxlength="80" required
+                           autocomplete="off" />
+                    <span asp-validation-for="Name" class="text-danger small"></span>
+                </div>
+                <div>
+                    <label asp-for="ProfileType" class="form-label"></label>
+                    <select asp-for="ProfileType" class="form-select">
+                        <option>Individual</option>
+                        <option>Business</option>
+                    </select>
+                    <span asp-validation-for="ProfileType" class="text-danger small"></span>
+                </div>
+            </div>
+        </section>
+        <section class="col-lg-7">
+            <div class="working-surface documents-form">
+                <h2>Financial documents</h2>
+                <p class="supported-files">Bank · Brokerage · Retirement · Business · Property · Mortgage · Tax</p>
+                <label class="upload-zone" for="documents">
+                    <partial name="_Icon" model='@("upload")' />
+                    <strong>Add documents</strong>
+                    <span>PDF · Up to 10 files · 10 MB each</span>
+                    <span class="btn btn-outline-primary">Browse files</span>
+                    <input id="documents" name="documents" type="file" multiple accept=".pdf" required
+                           aria-describedby="file-status" />
+                </label>
+                <p id="file-status" class="small text-secondary mt-3" aria-live="polite">No files selected</p>
+                <ul id="selected-files" class="selected-files"></ul>
+                <template id="file-row"><li><span></span><button type="button" class="text-button">Remove</button></li></template>
+                <p class="demo-note mt-3 mb-0">Processed PDFs are sent to the team’s AWS server. Use fictional test documents; scanned pages may still contain personal details.</p>
+                </div>
+            </section>
+        </div>
+        <div class="form-actions">
+            <div class="d-flex gap-3"><a class="btn btn-link" asp-controller="Home" asp-action="Index">Cancel</a><button
+                class="btn btn-primary" type="submit">Create profile</button></div>
+            </div>
+        </form>

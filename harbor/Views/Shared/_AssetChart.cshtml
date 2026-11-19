@@ -1,0 +1,33 @@
+@model HouseholdDemo
+@{
+    var colors = new[] { "#315d53", "#78958c", "#b3c2b6", "#bba681" };
+    decimal offset = 0;
+    var index = 0;
+}
+<div class="asset-chart" aria-label="Investable assets by account type">
+    <h3>Account mix</h3>
+    <svg class="account-donut" viewBox="0 0 120 120" role="group" aria-label="Account mix: focus a segment for details">
+        @foreach (var account in Model.AssetLocation)
+        {
+            var share = Model.InvestableAssets > 0 ? account.Value / Model.InvestableAssets * 100 : 0;
+            var detail = account.Key + " · " + account.Value.ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("en-US")) + " · " + share.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "%";
+            <circle cx="60" cy="60" r="44" fill="none" stroke="@colors[index++ % colors.Length]" stroke-width="18"
+                    tabindex="0" aria-label="@detail" data-chart-detail="@detail"
+                    pathLength="100" stroke-dasharray="@(share.ToString(System.Globalization.CultureInfo.InvariantCulture)) 100"
+                    stroke-dashoffset="@((-offset).ToString(System.Globalization.CultureInfo.InvariantCulture))" transform="rotate(-90 60 60)">
+                <title>@detail</title>
+            </circle>
+            offset += share;
+        }
+    </svg>
+    <p class="chart-detail small text-secondary" aria-live="polite">Hover or select a segment</p>
+    @{ index = 0; }
+    @foreach (var account in Model.AssetLocation)
+    {
+        var share = Model.InvestableAssets > 0 ? account.Value / Model.InvestableAssets * 100 : 0;
+        <div class="asset-chart-row">
+            <div><span><i class="chart-key" style="background: @colors[index++ % colors.Length]"></i>@account.Key</span><strong>@account.Value.ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</strong></div>
+            <span class="small text-secondary">@share.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)%</span>
+        </div>
+    }
+</div>

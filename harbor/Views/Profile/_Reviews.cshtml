@@ -1,0 +1,17 @@
+@model FinancialProfile
+<section data-panel-content="reviews" hidden>
+    @foreach (var document in Model.RedactedDocuments)
+    {
+        if (document.LowTextPages.Count == 0) { continue; }
+        <article class="review-item">
+            <div class="review-heading"><h3>@document.InputFile</h3><span class="status warning">Needs review</span></div>
+            <p class="text-secondary small">Pages @string.Join(", ", document.LowTextPages): too little readable text to verify redaction.</p>
+            <p class="small">Personal information may still be visible. Upload a copy with selectable text, or remove the private details yourself before sharing.</p>
+            <a class="text-button" asp-action="Download" asp-route-run="@Model.RedactionRun" asp-route-file="@document.OutputFile">Download for review</a>
+        </article>
+    }
+    @if (Model.RedactionReviewCount == 0)
+    {
+        <p class="text-secondary">No unreadable pages detected. Check redacted files before sharing.</p>
+    }
+</section>

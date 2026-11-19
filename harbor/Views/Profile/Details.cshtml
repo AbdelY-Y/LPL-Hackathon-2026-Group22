@@ -1,0 +1,66 @@
+@model FinancialProfile
+@{
+    ViewData["Title"] = Model.Name + " · Financial picture";
+    ViewData["BackLink"] = true;
+}
+<div class="workspace-heading picture-heading">
+    <div>
+        <h1>@Model.Name</h1>
+        <p class="text-secondary">Financial picture</p>
+    </div>
+
+</div>
+@if (Model.RedactionRun != null)
+{
+    <p class="small text-secondary">Upload ID: <code>@Model.RedactionRun</code></p>
+}
+@if (Model.UploadHeld)
+{
+    <p class="status warning">Upload paused. Some pages couldn’t be checked for private details. This batch stayed on your computer. Open Reviews, then upload readable copies.</p>
+}
+@if (Model.ResultsNotice != null)
+{
+    <p class="small text-secondary">@Model.ResultsNotice</p>
+}
+<section class="summary-strip" aria-label="Financial summary">
+    <div><strong>@Model.AssetsText</strong><span>Assets</span></div>
+    <div><strong>@Model.LiabilitiesText</strong><span>Liabilities</span></div>
+    <div><strong>@Model.RedactedDocuments.Count</strong><span>Sources</span></div>
+    <div><strong class="review-number">@Model.RedactionReviewCount</strong><span>To review</span></div>
+</section>
+<nav class="picture-actions" aria-label="Financial picture tools">
+    <button data-panel="documents" aria-controls="picture-panel" aria-expanded="false">Documents
+        <partial name="_Icon" model='@("right")' />
+    </button>
+    <button data-panel="reviews" aria-controls="picture-panel" aria-expanded="false">Reviews
+        <partial name="_Icon" model='@("right")' />
+    </button>
+</nav>
+<section class="working-surface details-form" aria-label="Financial breakdown">
+    <h2>Financial overview</h2>
+    <partial name="_Overview" model="Model" />
+</section>
+<form asp-action="Delete" method="post" data-delete-profile class="mt-3">
+    <input type="hidden" name="run" value="@Model.RedactionRun" />
+    <button class="text-button" type="submit"><partial name="_Icon" model='@("trash")' /> Delete profile</button>
+    <span class="small text-secondary ms-2">Removes this local profile; AWS copies remain.</span>
+</form>
+<aside id="picture-panel" class="offcanvas offcanvas-end side-panel" tabindex="-1" aria-labelledby="panel-title">
+    <div class="offcanvas-header">
+        <div>
+            <h2 id="panel-title" tabindex="-1" class="mb-1">Source documents</h2>
+            <p class="small text-secondary mb-0">@Model.Name</p>
+        </div>
+        <button id="close-panel" class="icon-button" aria-label="Close panel">
+            <partial name="_Icon" model='@("close")' />
+        </button>
+    </div>
+    <nav class="panel-tabs" aria-label="Panel views">
+        <button data-panel="documents">Documents</button>
+        <button data-panel="reviews">Reviews <span class="count-badge">@Model.RedactionReviewCount</span></button>
+    </nav>
+    <div class="offcanvas-body">
+        <partial name="_Documents" model="Model" />
+        <partial name="_Reviews" model="Model" />
+    </div>
+</aside>

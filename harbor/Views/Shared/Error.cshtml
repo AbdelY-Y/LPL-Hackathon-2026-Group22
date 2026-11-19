@@ -1,0 +1,4 @@
+@model ErrorViewModel
+@{ ViewData["Title"] = "Something went wrong"; }
+<div class="workspace-heading"><p class="section-label">PLEASE TRY AGAIN</p><h1>We couldn't open this page</h1><p class="text-secondary">Return to your workspace and try again.</p><a class="btn btn-primary" asp-controller="Home" asp-action="Index">Financial profiles <partial name="_Icon" model='@("right")' /></a></div>
+@if (Model.ShowRequestId) { <p class="demo-note">Request ID: <code>@Model.RequestId</code></p> }

@@ -1,0 +1,43 @@
+@model List<FinancialProfile>
+@{ ViewData["Title"] = "Financial profiles"; }
+<div class="workspace-heading">
+    <p class="welcome-label">Welcome to Harbor</p>
+    <h1>Your financial workspace</h1>
+    <p>Start a profile or pick up where you left off.</p>
+</div>
+<div class="row g-4">
+    <section class="col-lg-8" aria-label="Financial profiles">
+        <h2 class="profiles-heading">Financial profiles</h2>
+        <div class="profile-list">
+            <div class="profile-columns" aria-hidden="true"><span>Profile</span><span>Assets</span><span>Sources</span><span>Review</span><span></span></div>
+            @foreach (var profile in Model)
+            {
+                <a class="profile-row" asp-controller="Profile" asp-action="Details" asp-route-id="@profile.Id">
+                    <div><h2>@profile.Name</h2><span class="text-secondary small">@profile.ProfileType profile</span></div>
+                    <span class="profile-value">—</span>
+                    <span>@profile.RedactedDocuments.Count</span>
+                    <span class="review-number">@profile.RedactionReviewCount</span>
+                    <span class="profile-link">View profile <partial name="_Icon" model='@("right")' /></span>
+                </a>
+            }
+        </div>
+        @if (Model.Count == 0)
+        {
+            <div class="working-surface details-form">
+                <p class="text-secondary">No profiles yet.</p>
+                <a class="text-button" asp-controller="Profile" asp-action="Create">Build your first profile <partial name="_Icon" model='@("right")' /></a>
+            </div>
+        }
+    </section>
+    <aside class="col-lg-4">
+        <div class="principle-panel">
+            <h2>From records to clarity</h2>
+            <ol class="principle-steps">
+                <li><span>01</span><div><h3>Protect</h3><p>Minimize sensitive identifiers.</p></div></li>
+                <li><span>02</span><div><h3>Connect</h3><p>Financial extraction coming next.</p></div></li>
+                <li><span>03</span><div><h3>Review</h3><p>Check redacted documents before sharing.</p></div></li>
+            </ol>
+
+        </div>
+    </aside>
+</div>

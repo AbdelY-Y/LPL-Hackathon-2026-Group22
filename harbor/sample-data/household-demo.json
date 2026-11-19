@@ -1,0 +1,49 @@
+{
+  "household_name": "Morgan Household",
+  "total_assets": 4528450,
+  "total_liabilities": 638000,
+  "estimated_net_worth": 3890450,
+  "investable_assets": 3278450,
+  "asset_location": {
+    "Taxable accounts": 1767225,
+    "Tax-deferred accounts": 862450,
+    "Tax-free accounts": 418775,
+    "Cash and bank": 230000
+  },
+  "planning_gaps": [
+    {
+      "category": "Beneficiaries",
+      "severity": "Medium",
+      "finding": "Beneficiary designations should be reviewed against current estate documents."
+    },
+    {
+      "category": "Insurance",
+      "severity": "Medium",
+      "finding": "Existing coverage may not fully reflect current income and estate needs."
+    },
+    {
+      "category": "Retirement",
+      "severity": "Low",
+      "finding": "Current trajectory is close to target but could benefit from higher annual contributions."
+    }
+  ],
+  "missing_documents": [
+    "Latest property insurance declaration",
+    "Updated beneficiary confirmation"
+  ],
+  "fictional": true,
+  "financial_goals": [
+    {
+      "name": "Retirement",
+      "funded_percent": 72
+    },
+    {
+      "name": "Lake house",
+      "funded_percent": 45
+    },
+    {
+      "name": "Family legacy",
+      "funded_percent": 61
+    }
+  ]
+}

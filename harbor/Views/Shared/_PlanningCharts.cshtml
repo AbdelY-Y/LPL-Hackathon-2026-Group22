@@ -1,0 +1,23 @@
+@model HouseholdDemo
+<div>
+    <section class="asset-chart">
+        <h3>Assets and debt</h3>
+        @foreach (var item in new[] { ("Assets", Model.TotalAssets), ("Liabilities", Model.TotalLiabilities) })
+        {
+            <div class="asset-chart-row">
+                <div><span>@item.Item1</span><strong>@item.Item2.ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</strong></div>
+                <meter min="0" max="@Model.TotalAssets" value="@item.Item2" aria-label="@item.Item1"></meter>
+            </div>
+        }
+    </section>
+    <section class="asset-chart">
+        <h3>Goal progress</h3>
+        @foreach (var goal in Model.FinancialGoals)
+        {
+            <div class="asset-chart-row">
+                <div><span>@goal.Name</span><strong>@goal.FundedPercent%</strong></div>
+                <meter min="0" max="100" value="@goal.FundedPercent" aria-label="@goal.Name funding"></meter>
+            </div>
+        }
+    </section>
+</div>

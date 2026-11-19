@@ -1,0 +1,46 @@
+@model ServerFinancialResults
+@{
+    var categories = new Dictionary<string, string> {
+        ["equities_pct"] = "Equities", ["fixed_income_pct"] = "Fixed income",
+        ["cash_pct"] = "Cash", ["alternatives_pct"] = "Alternatives",
+        ["real_estate_pct"] = "Real estate", ["crypto_pct"] = "Crypto"
+    };
+    var allocation = categories.Where(item => Model.Values.ContainsKey(item.Key)).ToList();
+    var flow = new Dictionary<string, string> { ["monthly_inflows"] = "Monthly inflows", ["monthly_outflows"] = "Monthly outflows" }
+        .Where(item => Model.Values.ContainsKey(item.Key)).ToList();
+}
+<div class="financial-charts mb-4">
+    @if (allocation.Count > 0)
+    {
+        <section class="asset-chart">
+            <h3>Reported asset allocation</h3>
+            @foreach (var item in allocation)
+            {
+                var value = Model.Values[item.Key];
+                <div class="asset-chart-row">
+                    <div><span>@item.Value</span><strong>@value.ToString("0.0")%</strong></div>
+                    <meter min="0" max="100" value="@value" aria-label="@item.Value allocation"></meter>
+                </div>
+            }
+            @if (allocation.Sum(item => Model.Values[item.Key]) > 101)
+            {
+                <p class="small review-number mt-3">Reported allocations exceed 100%. Check the source results.</p>
+            }
+        </section>
+    }
+    @if (flow.Count > 0)
+    {
+        var maximum = Math.Max(1, flow.Max(item => Model.Values[item.Key]));
+        <section class="asset-chart">
+            <h3>Monthly cash flow</h3>
+            @foreach (var item in flow)
+            {
+                var value = Model.Values[item.Key];
+                <div class="asset-chart-row">
+                    <div><span>@item.Value</span><strong>@value.ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</strong></div>
+                    <meter min="0" max="@maximum" value="@value" aria-label="@item.Value"></meter>
+                </div>
+            }
+        </section>
+    }
+</div>

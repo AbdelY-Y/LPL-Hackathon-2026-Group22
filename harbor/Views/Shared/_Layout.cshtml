@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] · Harbor</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container-fluid header-inner">
+            <a class="wordmark" asp-controller="Home" asp-action="Index">Harbor</a>
+            <nav class="d-flex align-items-center gap-4" aria-label="Main navigation">
+                <button class="nav-link" data-info="how">How it works</button><button class="nav-link"
+                                                                                      data-info="security">Security</button><button class="nav-link" data-info="help">Help</button>
+                <a class="btn btn-primary" asp-controller="Profile" asp-action="Create">
+                    <partial name="_Icon" model='@("plus")' /> Build profile
+                </a>
+            </nav>
+        </div>
+    </header>
+    <main class="container-fluid page-shell">
+        @if (ViewData["BackLink"] is true)
+        {
+            <a class="back-link" asp-controller="Home" asp-action="Index">
+                <partial name="_Icon" model='@("arrow")' /> Financial profiles
+            </a>
+        }
+        @RenderBody()
+    </main>
+
+    <dialog id="info-dialog" class="info-dialog" aria-labelledby="info-title">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h2 id="info-title" class="mb-0"></h2><button class="icon-button" id="close-info"
+                                                      aria-label="Close information">
+            <partial name="_Icon" model='@("close")' />
+        </button>
+    </div>
+    <p id="info-text" class="text-secondary mb-0"></p>
+</dialog>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

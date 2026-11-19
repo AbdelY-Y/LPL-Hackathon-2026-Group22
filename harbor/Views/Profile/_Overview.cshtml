@@ -1,0 +1,34 @@
+@model FinancialProfile
+@{
+    var server = Model.ServerResults;
+    var demo = Model.Demo;
+}
+@if (server != null)
+{
+    <p class="small text-secondary">@server.DocumentType · @server.StatementDate · @server.DocumentsProcessed processed document(s)</p>
+    <partial name="_ServerCharts" model="server" />
+    <dl class="row mb-0">
+        @foreach (var value in server.Values)
+        {
+            if (server.IsChartValue(value.Key)) { continue; }
+            <div class="col-sm-6 mb-3">
+                <dt>@ServerFinancialResults.Label(value.Key)</dt>
+                <dd>@ServerFinancialResults.DisplayValue(value.Key, value.Value)</dd>
+            </div>
+        }
+    </dl>
+    @if (server.Values.Count == 0) { <p class="text-secondary">No financial values were supplied.</p> }
+}
+else if (demo != null)
+{
+    <p class="small text-secondary">@demo.HouseholdName @if (demo.Fictional) { <span>· Fictional data</span> }</p>
+    <dl class="row mb-0">
+        <div class="col-sm-6"><dt>Net worth</dt><dd>@FinancialProfile.Money(demo.EstimatedNetWorth)</dd></div>
+        <div class="col-sm-6"><dt>Investable assets</dt><dd>@FinancialProfile.Money(demo.InvestableAssets)</dd></div>
+    </dl>
+    <div class="financial-charts"><partial name="_AssetChart" model="demo" /><partial name="_PlanningCharts" model="demo" /></div>
+}
+else
+{
+    <p class="text-secondary mb-0">Financial extraction is not connected yet.</p>
+}

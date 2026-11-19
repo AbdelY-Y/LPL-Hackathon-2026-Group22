@@ -1,0 +1,64 @@
+@model FinancialProfile
+@{
+    var serverDocuments = Model.ServerResults;
+    var documentDemo = Model.Demo;
+}
+<section data-panel-content="documents" hidden>
+    @if (Model.RedactedDocuments.Count > 0)
+    {
+        <p class="document-count">@Model.RedactedDocuments.Count uploaded documents</p>
+        <ul class="source-list mb-4">
+            @foreach (var document in Model.RedactedDocuments)
+            {
+                <li class="source-record">
+                    <span class="document-icon">
+                        <partial name="_Icon" model='@("document")' />
+                    </span>
+                    <div class="source-identity">
+                        <strong>@document.InputFile</strong>
+                        @if (document.LowTextPages.Count > 0)
+                        {
+                            <span class="review-number">Needs review</span>
+                            <p class="small mt-2 mb-0">Pages @string.Join(", ", document.LowTextPages): we couldn’t read enough text to check for private details.</p>
+                            <p class="small text-secondary mt-1 mb-0">Upload a copy with selectable text, or remove private details before sharing.</p>
+                        }
+                        else
+                        {
+                            <span>@document.TotalRedactions redactions · Review before sharing</span>
+                        }
+                    </div>
+                    @if (document.LowTextPages.Count > 0)
+                    {
+                        <button class="document-review" data-panel="reviews">Review <partial name="_Icon" model='@("right")' /></button>
+                    }
+                    else
+                    {
+                        <a class="text-button" asp-action="Download" asp-route-run="@Model.RedactionRun"
+                           asp-route-file="@document.OutputFile">Download</a>
+                    }
+                </li>
+            }
+        </ul>
+    }
+    @if (serverDocuments != null && serverDocuments.DataGaps.Count > 0)
+    {
+        <details class="review-disclosure">
+            <summary><span>Unavailable fields (@serverDocuments.DataGaps.Count)</span><partial name="_Icon" model='@("right")' /></summary>
+            <ul class="small mt-3">
+                @foreach (var field in serverDocuments.DataGaps) { <li>@field.Replace('_', ' ')</li> }
+            </ul>
+        </details>
+    }
+    @if (documentDemo != null)
+    {
+        <details class="review-disclosure"><summary><span>Planning review (@documentDemo.PlanningGaps.Count)</span><partial name="_Icon" model='@("right")' /></summary>
+        @foreach (var gap in documentDemo.PlanningGaps)
+        {
+            <article class="review-item"><h3>@gap.Category</h3><p class="small mb-0">@gap.Finding</p></article>
+        }
+        </details><details class="review-disclosure"><summary><span>Missing documents (@documentDemo.MissingDocuments.Count)</span><partial name="_Icon" model='@("right")' /></summary>
+        <ul class="small">
+            @foreach (var missing in documentDemo.MissingDocuments) { <li>@missing</li> }
+        </ul></details>
+    }
+</section>

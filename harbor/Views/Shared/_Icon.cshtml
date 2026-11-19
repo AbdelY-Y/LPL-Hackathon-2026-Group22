@@ -1,0 +1,46 @@
+@model string
+<svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+     stroke="currentColor" aria-hidden="true">
+    @switch (Model)
+    {
+        case "arrow":
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            break;
+        case "right":
+            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            break;
+        case "plus":
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            break;
+        case "close":
+            <path stroke-linecap="round" stroke-linejoin="round" d="m6 6 12 12M6 18 18 6" />
+            break;
+        case "upload":
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 16.5V3m0 0 4.5 4.5M12 3 7.5 7.5M3 15v4.5A1.5 1.5 0 0 0 4.5 21h15a1.5 1.5 0 0 0 1.5-1.5V15" />
+            break;
+        case "user":
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.25a7.5 7.5 0 0 1 15 0" />
+            break;
+        case "lock":
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M7.5 10.5V6a4.5 4.5 0 0 1 9 0v4.5m-10.5 0h12A1.5 1.5 0 0 1 19.5 12v7.5A1.5 1.5 0 0 1 18 21H6a1.5 1.5 0 0 1-1.5-1.5V12A1.5 1.5 0 0 1 6 10.5Z" />
+            break;
+        case "document":
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M14.25 2.25H6A2.25 2.25 0 0 0 3.75 4.5v15A2.25 2.25 0 0 0 6 21.75h12a2.25 2.25 0 0 0 2.25-2.25V8.25m-6-6 6 6m-6-6v6h6M8.25 12h7.5m-7.5 4.5h7.5" />
+            break;
+        case "map":
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V18m6-12v11.25M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z" />
+            break;
+        case "trash":
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M9.75 9.75v7.5m4.5-7.5v7.5M4.5 6.75h15m-13.5 0 .75 13.5h10.5L18 6.75M9 6.75v-3h6v3" />
+            break;
+        case "review":
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 9v3.75m0 3h.008M10.3 3.9 2.2 18a1.9 1.9 0 0 0 1.7 2.8h16.2a1.9 1.9 0 0 0 1.7-2.8L13.7 3.9a1.9 1.9 0 0 0-3.4 0Z" />
+            break;
+    }
+</svg>
